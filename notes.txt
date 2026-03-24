@@ -1,0 +1,117 @@
+https://github.com/riva0corp/ccna2
+
+SWITCH ROLES:
+1. poe: sh power inline | (sh pow in)
+2.svi: show ip interface brief = siib/siEve (sh ip int bri) , check ip 
+3. dhcp server: sh ip dhcp binding = sidb
+4. vlan creation: sh vlan brief = svb
+5. sh mac address-table
+
+CUCM ROLES:
+1. Analog phones: 
+2. Telephony
+3. Incoming and Outgoing Calls
+
+
+1. 802.3at, 802.3b, 802.3af: Physical layer
+2. Mac Address: data layer
+3. IP Address: network layer
+4. [TFTP UDP: 69], Signal protocal (SCCP:2000, SIP: 5060)
+5. RTP (real time protocol)
+6. CODEC: G711, G729
+7. App, IP Phones, RTP Player
+
+
+shw cdp neigh
+
+EDGE-ROUTER:
+1. Routing Static 
+2. Routing Default
+3. Routing OSPF
+4. Routing EIGRP
+5. Routing BGP
+6. VPN
+
+
+SIRO
+CoreBABA
+show ip ospf neigh
+show ip route ospf
+show ip route | inc C
+
+conf t
+monitor session 1 source int fa0/3,fa0/5,fa0/7
+monitor session 1 dest int fa0/1,fa0/9
+end
+
+warshark
+rtp || sccp || sip
+
+root
+C1sc0123
+
+Get IP:
+rm -rf /etc/udev/rules.d/70-persistent-net.rules
+reboot
+
+!@D1
+conf t
+ip dhcp excluded-address 10.2.1.1 	10.2.1.99
+ip dhcp excluded-address 10.2.1.200 	10.2.1.254
+!
+ip dhcp pool MGMTPOOL
+  network 10.2.1.0 255.255.255.0
+  default-router 10.2.1.1
+  domain-name MGMT.COM
+  dns-server 10.2.1.1
+end
+
+!@D2
+conf t
+ip dhcp excluded-address 10.2.1.1 	10.2.1.199
+!
+ip dhcp pool MGMTPOOL
+  network 10.2.1.0 255.255.255.0
+  default-router 10.2.1.2
+  domain-name MGMT.COM
+  dns-server 10.2.1.2
+end
+
+
+
+!@A1
+conf t
+ int e0/0
+  switchport mode access
+  switchport access vlan 10
+  end
+show vlan brief
+
+
+!@A2
+conf t
+ int e1/0
+  switchport mode access
+  switchport access vlan 10
+  end
+show vlan brief
+
+!@P1
+conf t
+  int e0/0
+   no shut
+   ip add dhcp
+   end
+show ip int br | ex una
+
+
+!@P2
+conf t
+  int e1/0
+   no shut
+   ip add dhcp
+   end
+show ip int br | ex una
+
+
+
